@@ -1,0 +1,41 @@
+﻿@using EmpolyeeSystem.BLL.ModelVM.EmpolyeeVM
+@model CreateEmpVM 
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<center><h1 class="text-success">Add Employee</h1></center>
+<form asp-action="Create" , asp-controller="Employee" enctype="multipart/form-data">
+    <div class="form-group">
+        <label><b>Name</b></label>
+        <input type="text" class="form-control" asp-for="Name" placeholder="Enter Name">
+        <span asp-validation-for="Name"></span>
+    </div>
+    <div class="form-group">
+        <label><b>Age</b></label>
+        <input type="text" class="form-control" asp-for="Age" placeholder="Enter The Age">
+        <span asp-validation-for="Age"></span>
+    </div>
+    <div class="form-group">
+        <label><b>Salary</b></label>
+        <input type="text" class="form-control" asp-for="Salary" placeholder="Enter The Salary">
+        <span asp-validation-for="Salary"></span>
+    </div>
+    <div class="form-group">
+        <label><b>Image</b></label>
+        <input type="file" class="form-control" asp-for="Image" placeholder="Add Image">
+    </div>
+    <div class="form-group">
+        <label asp-for="DeptId" class="mb-1">Department</label>
+        <select asp-for="DeptId" class="form-control">
+            <option value=""> Select Department </option>
+            @foreach (var department in Model.Departments)
+            {
+                <option value="@department.id">@department.Name</option>
+            }
+        </select>
+    </div>
+    <button type="submit" class="btn btn-success mt-3">Submit</button>
+    <a asp-action="Index" asp-controller="Employee" asp-route-id="1" class="btn btn-danger mt-3">Cancel</a>
+</form>
+

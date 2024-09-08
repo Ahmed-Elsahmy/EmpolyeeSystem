@@ -1,0 +1,65 @@
+﻿@using EmpolyeeSystem.BLL.ModelVM.EmpolyeeVM
+@model List<GetallEmpVM>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<center><h1><p class="text-primary"><b>Employee Info</b></p></h1></center>
+<table id="myTable" class="display">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Age</th>
+            <th>Created</th>
+            <th>Deleted?</th>
+            <th>Salary</th>
+            <th>Update Info</th>
+            <th>Image</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var emp in Model)
+        {
+            <tr>
+                <td>
+                    @emp.id
+                </td>
+                <td>
+                    @emp.Name
+                </td>
+                <td>
+                    @emp.Age
+                </td>
+                <td>
+                    @emp.Created
+                </td>
+                @if (emp.IsDeleted)
+                {
+                    <td><p class="text-danger">Deleted</p></td>
+                }
+                else
+                {
+                    <td><p class="text-success">Available</p></td>
+
+                }
+                <td>@emp.Salary <b>$</b></td>
+                <td>
+                    <a asp-action="Edit" asp-controller="Employee" asp-route-id=@emp.id class="btn btn-success">
+                        <i class="material-icons">border_color</i>
+                    </a>
+                </td>
+                <td><img src="~/ImageEmp/Profile/@emp.image"  width="100"/></td>
+            </tr>
+        }
+
+    </tbody>
+</table>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#myTable').DataTable();
+    });
+</script>
+

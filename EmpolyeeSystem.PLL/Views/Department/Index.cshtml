@@ -1,0 +1,44 @@
+﻿@using EmpolyeeSystem.BLL.ModelVM.DepartmentVM
+@model List<GetallDeptVM>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<center><h1><p class="text-primary"><b>Department Info</b></p></h1></center>
+<div class="row">
+    <div class="col-12">
+        <table id="myTable" class="table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Update</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var deptVM in Model)
+                {
+                    <tr>
+                        <td>
+                            @deptVM.id
+                        </td>
+                        <td>
+                            @deptVM.Name
+                        </td>
+                        <td><a asp-action="Update" asp-controller="Department" asp-route-id=@deptVM.id class="btn btn-success">Update</a></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#myTable').DataTable();
+    });
+</script>
+
+
+

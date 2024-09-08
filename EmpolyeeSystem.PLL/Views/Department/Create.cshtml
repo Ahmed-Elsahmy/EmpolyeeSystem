@@ -1,0 +1,17 @@
+﻿@using EmpolyeeSystem.BLL.ModelVM.DepartmentVM
+@model CreateDeptVM
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<center><h1 class="text-success">Add Department</h1></center>
+<form asp-action="Create" , asp-controller="Department" enctype="multipart/form-data">
+    <div class="form-group">
+        <label><b>Name</b></label>
+        <input type="text" class="form-control" asp-for="Name" placeholder="Enter Name Of Deapartment">
+        <span asp-validation-for="Name"></span>
+    </div>
+    <button type="submit" class="btn btn-success mt-3">Submit</button>
+    <a asp-action="Index" asp-controller="Department" asp-route-id="1" class="btn btn-danger mt-3">Cancel</a>
+</form>
+
