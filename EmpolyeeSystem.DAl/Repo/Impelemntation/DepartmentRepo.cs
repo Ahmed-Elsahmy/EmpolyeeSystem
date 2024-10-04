@@ -11,7 +11,13 @@ namespace EmpolyeeSystem.DAl.Repo.Impelemntation
 {
     public class DepartmentRepo : IDepartmentRepo
     {
-        private readonly AppDbContext _appDbContext = new AppDbContext();
+        private readonly AppDbContext _appDbContext;
+
+        public DepartmentRepo(AppDbContext appDbContext)
+        {
+            _appDbContext = appDbContext;
+        }
+
         public bool Create(Department department)
         {
             try

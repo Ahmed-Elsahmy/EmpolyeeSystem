@@ -27,7 +27,7 @@ namespace EmpolyeeSystem.BLL.ModelVM.EmpolyeeVM
         public string? image { get; set; }
         [ForeignKey("Department")]
         public int? DeptId { get; set; }
-        public IFormFile? Image { get; set; }
+        public IFormFile? ImageName { get; set; }
         public List<GetallDeptVM> Departments { get; set; } = new List<GetallDeptVM>();
         public Department? Department { get; set; }
     }

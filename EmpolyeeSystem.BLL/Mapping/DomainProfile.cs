@@ -17,10 +17,10 @@ namespace EmpolyeeSystem.BLL.Mapping
             // From Entity To VM (Retreive)
             CreateMap<Employee, GetallEmpVM>();
             CreateMap<Department , GetallDeptVM>();
-            // Fro
             CreateMap<CreateEmpVM, Employee>();
             CreateMap<CreateDeptVM, Department>();
             CreateMap<Employee, EditEmpVM>().ReverseMap();
+            CreateMap<Employee,DeleteEmpVM>().ReverseMap();
         }
     }
 }

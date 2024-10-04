@@ -7,10 +7,12 @@ using EmpolyeeSystem.BLL.Services.Impelmentation;
 using EmpolyeeSystem.DAl.Entities;
 using EmpolyeeSystem.DAl.Repo.Abstraction;
 using EmpolyeeSystem.DAl.Repo.Impelemntation;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EmpolyeeSystem.PLL.Controllers
 {
+    [Authorize]
     public class EmployeeController : Controller
     {
         private readonly IEmployeeServices employeeServices;
@@ -24,7 +26,6 @@ namespace EmpolyeeSystem.PLL.Controllers
             this.departmentServices = departmentServices;
             Mapper = mapper;
         }
-
 
         public IActionResult Index()
         {
@@ -58,10 +59,6 @@ namespace EmpolyeeSystem.PLL.Controllers
         public IActionResult Edit(int id)
         {
             var emp = employeeServices.GetByid(id);
-            if (emp == null)
-            {
-                return NotFound();
-            }
             var model = Mapper.Map<EditEmpVM>(emp);
             model.Departments = departmentServices.getallDepts();
             return View(model);
@@ -69,22 +66,59 @@ namespace EmpolyeeSystem.PLL.Controllers
         [HttpPost]
         public IActionResult Edit(EditEmpVM employee)
         {
-            if (ModelState.IsValid)
+            var data = employeeServices.Edit(employee);
+            employee.Departments = departmentServices.getallDepts();
+            return RedirectToAction("Index", "Employee");
+        }
+        [HttpGet]
+        public IActionResult Delete(int id)
+        {
+            var data = employeeServices.GetByid(id);
+            if (data == null)
             {
-                if (employee.Image != null)
-                {
-                    var filename = UploadImage.UploadFile("Profile",employee.Image);
-                    employee.image = filename;
-                }
-                var isUpdate = employeeServices.Edit(employee);
-                if((bool)isUpdate)
-                {
-                    return RedirectToAction("Index", "Employee");
+                return NotFound();
+            }
+            var model = Mapper.Map<DeleteEmpVM>(data);
 
+            return View(model);
+        }
+        [HttpPost]
+        public IActionResult DeleteEmp(int Id)
+        {
+            try
+            {
+                if (employeeServices.Delete(Id))
+                {
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    ViewBag.ErrorMessage = "Error deleting the employee.";
+                    var employee = employeeServices.GetByid(Id);
+                    if (employee == null)
+                    {
+                        return NotFound();
+                    }
+
+                    // Map the employee entity back to DeleteEmployeeVM
+                    var model = Mapper.Map<DeleteEmpVM>(employee);
+                    return View("Index", "Employee");
                 }
             }
-            employee.Departments = departmentServices.getallDepts();
-            return View(employee);
+            catch (Exception ex)
+            {
+                ViewBag.ErrorMessage = ex.Message;
+                var employee = employeeServices.GetByid(Id);
+                if (employee == null)
+                {
+                    return NotFound();
+                }
+
+                // Map the employee entity back to DeleteEmployeeVM
+                var model = Mapper.Map<DeleteEmpVM>(employee);
+                return View("Index", "Employee");
+            }
+
         }
     }
 }

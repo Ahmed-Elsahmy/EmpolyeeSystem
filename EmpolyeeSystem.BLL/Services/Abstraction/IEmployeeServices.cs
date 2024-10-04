@@ -15,5 +15,7 @@ namespace EmpolyeeSystem.BLL.Services.Abstraction
          bool Create(CreateEmpVM emp);
         Employee GetByid(int id);
         bool Edit(EditEmpVM emp);
+        bool Delete(int id);
+
     }
 }

@@ -3,10 +3,12 @@ using EmpolyeeSystem.BLL.ModelVM.EmpolyeeVM;
 using EmpolyeeSystem.BLL.Services.Abstraction;
 using EmpolyeeSystem.BLL.Services.Impelmentation;
 using EmpolyeeSystem.DAl.Repo.Abstraction;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EmpolyeeSystem.PLL.Controllers
 {
+    [Authorize]
     public class DepartmentController : Controller
     {
         public readonly IDepartmentServices departmentServices;

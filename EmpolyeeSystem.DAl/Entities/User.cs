@@ -13,7 +13,6 @@ namespace EmpolyeeSystem.DAl.Entities
     [Table("User")]
     public class User : IdentityUser
     {
-        public string Mail { get; set; }
-        public string Pass { get; set; }
+        public string? Fullname{  get; set; }
     }
 }

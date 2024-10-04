@@ -13,7 +13,13 @@ namespace EmpolyeeSystem.DAl.Repo.Impelemntation
 {
     public class EmployeeRepo : IEmployeeRepo
     {
-        private readonly AppDbContext _appDbContext = new AppDbContext();
+        private readonly AppDbContext _appDbContext;
+
+        public EmployeeRepo(AppDbContext appDbContext)
+        {
+            _appDbContext = appDbContext;
+        }
+
         public bool Create(Employee empolyee)
         {
             try
@@ -28,14 +34,18 @@ namespace EmpolyeeSystem.DAl.Repo.Impelemntation
             }
         }
 
-        public bool Delete(Employee empolyee)
+        public bool Delete(int id)
         {
             try
             {
-                var data = _appDbContext.Employees.Where(a => a.id == empolyee.id).FirstOrDefault();
-                data.IsDeleted = !data.IsDeleted;
-                _appDbContext.SaveChanges();
-                return true;
+                var emp = _appDbContext.Employees.FirstOrDefault(e => e.id == id);
+                if (emp != null)
+                {
+                    emp.IsDeleted = !emp.IsDeleted;
+                    _appDbContext.SaveChanges();
+                    return true;
+                }
+                return false;
             }
             catch
             {
@@ -51,6 +61,7 @@ namespace EmpolyeeSystem.DAl.Repo.Impelemntation
                 data.Name = empolyee.Name;
                 data.Age = empolyee.Age;
                 data.Salary = empolyee.Salary;
+                data.image = empolyee.image;
                 _appDbContext.SaveChanges();
                 return true;
             }
@@ -72,5 +83,9 @@ namespace EmpolyeeSystem.DAl.Repo.Impelemntation
             return result;
         }
 
+        public void SaveChanges()
+        {
+             _appDbContext.SaveChanges();
+        }
     }
 }

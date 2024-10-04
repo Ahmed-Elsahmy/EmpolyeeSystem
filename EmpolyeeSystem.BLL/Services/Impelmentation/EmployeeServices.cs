@@ -32,34 +32,41 @@ namespace EmpolyeeSystem.BLL.Services.Impelmentation
            return employeeRepo.Create(Result);
         }
 
+        public bool Delete(int id)
+        {
+            var result = employeeRepo.GetById(id);
+
+            return employeeRepo.Delete(id);
+        }
+
         public bool Edit(EditEmpVM editemp)
         {
+
             try
             {
-                var emp = employeeRepo.GetById(editemp.id);
-                if (emp != null)
+                var existingEmployee = employeeRepo.GetById(editemp.id);
+                if (existingEmployee != null)
                 {
-                    if (emp.image != null)
+                    if (editemp.ImageName != null)
                     {
-                        {
-                            emp.image = UploadImage.UploadFile("Profile", editemp.Image);
-                        }
-                        emp = Mapper.Map(editemp, emp);
-                        employeeRepo.Edit(emp);
-                        return true;
+                        editemp.image = UploadImage.UploadFile("Profile", editemp.ImageName);
                     }
+
+
+                    existingEmployee = Mapper.Map(editemp, existingEmployee);
+
+                    employeeRepo.Edit(existingEmployee);
+                    employeeRepo.SaveChanges();
+                    return true;
                 }
                 return false;
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
                 return false;
-                   
             }
-
         }
-
         public List<GetallEmpVM> Getall()
         {
             var result = employeeRepo.GetAll().ToList();
@@ -69,12 +76,7 @@ namespace EmpolyeeSystem.BLL.Services.Impelmentation
 
         public Employee GetByid(int id)
         {
-            var emp = employeeRepo.GetById(id);
-            if (emp == null)
-            {
-                throw new Exception("Emp Not Found");
-            }
-            return emp;
+            return employeeRepo.GetById(id);
         }
     }
 

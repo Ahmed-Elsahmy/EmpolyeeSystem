@@ -4,25 +4,34 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-<center><h1><p class="text-primary"><b>Employee Info</b></p></h1></center>
+<center><h1><p class="text-primary"><b>Employees</b></p></h1></center>
+
+<center>
+    <a asp-controller="Employee" asp-action="Create" class="button1">
+        Add New Employee
+    </a>
+</center>
 <table id="myTable" class="display">
     <thead>
         <tr>
             <th>ID</th>
             <th>Name</th>
             <th>Age</th>
-            <th>Created</th>
-            <th>Deleted?</th>
-            <th>Salary</th>
-            <th>Update Info</th>
-            <th>Image</th>
+            <th>Created On <span class="glyphicon glyphicon-calendar"></span> </th>
+            <th>Status</th>
+@*             <th>Salary</th>
+ *@            <th>Department</th>
+            <th> <center><span class="glyphicon glyphicon-picture"></span></center></th>
+            
+            <th>Actions <span class="glyphicon glyphicon-wrench"></span></th>
         </tr>
     </thead>
     <tbody>
         @foreach (var emp in Model)
         {
-            <tr>
+            <tr class="@(emp.IsDeleted ? "display-danger" : "display-success")">
                 <td>
                     @emp.id
                 </td>
@@ -35,27 +44,96 @@
                 <td>
                     @emp.Created
                 </td>
-                @if (emp.IsDeleted)
-                {
-                    <td><p class="text-danger">Deleted</p></td>
-                }
-                else
-                {
-                    <td><p class="text-success">Available</p></td>
-
-                }
-                <td>@emp.Salary <b>$</b></td>
                 <td>
-                    <a asp-action="Edit" asp-controller="Employee" asp-route-id=@emp.id class="btn btn-success">
+                    <span class="badge @(emp.IsDeleted ? "badge-danger" : "badge-active")">
+                        @(emp.IsDeleted ? "Deleted" : "Active")
+                    </span>
+
+                </td>
+               @*  <td>@emp.Salary <b>$</b></td> *@
+                <td>
+                    @emp.DepartmentName
+                </td>
+                <td><img class="img" src="~/ImageEmp/Profile/@emp.image" width="100" /></td>
+                <td>
+                    <a asp-action="Edit" asp-controller="Employee" asp-route-id=@emp.id class="btn btn-success ms-2">
                         <i class="material-icons">border_color</i>
                     </a>
+                    <a asp-action="Delete" asp-controller="Employee" asp-route-id=@emp.id class="btn btn-danger ms-3"><i class="material-icons">delete_sweep</i></a>
                 </td>
-                <td><img src="~/ImageEmp/Profile/@emp.image"  width="100"/></td>
+              
+
             </tr>
         }
 
     </tbody>
 </table>
+<style>
+    body{
+        background-color: #E7FBE6;
+    }
+    .button1{
+        background-color: #229799;
+        border-radius:50px;
+        color:aliceblue;
+        padding: 10px 32px;
+        text-align: center;
+        font-weight: bold;
+        display: inline-block;
+  
+    }
+
+    .button1:hover {
+        box-shadow: 0 6px 8px 0 rgba(0, 0, 0, 0.24), 0 17px 50px 0 rgba(0, 0, 0, 0.19);
+        transition: all 0.3s ease;
+        text-decoration: none;
+    }
+
+    .display
+    {
+        width:100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+        border-radius:100px;
+    }
+    .display thead {
+        background-color:cornflowerblue;
+        border-radius:100px;
+
+    }
+    .display thead th{
+        color:azure;
+    }
+
+    .display tbody tr:nth-child(odd) {
+            background-color: #D2E0FB;
+            color:black;
+            font-weight:bold;
+    }
+
+    .display tbody tr:nth-child(even) {
+            background-color: #8EACCD;
+            color: white;
+            font-weight: bold;
+        }
+    .badge-danger
+    {
+        background-color: #EF5A6F;
+    }
+
+    .display-danger
+    {
+        background-color:#FF8A8A;
+    }
+    .badge-active {
+        background-color: #88D66C;
+    }
+    .img{
+        border-radius:20px;
+        border-color: brown;
+    }
+    
+    </style>
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script>
     $(document).ready(function () {

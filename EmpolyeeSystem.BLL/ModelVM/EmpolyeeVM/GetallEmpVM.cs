@@ -24,6 +24,7 @@ namespace EmpolyeeSystem.BLL.ModelVM.EmpolyeeVM
         public bool IsDeleted { get; set; }
         [Required(ErrorMessage = "Salary Is Required")]
         public string? image { get; set; }
+
         public double Salary { get; set; }
 
         public string? DepartmentName { get; set; }

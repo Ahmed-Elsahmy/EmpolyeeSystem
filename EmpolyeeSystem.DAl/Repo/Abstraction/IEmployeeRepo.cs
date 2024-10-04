@@ -13,6 +13,8 @@ namespace EmpolyeeSystem.DAl.Repo.Abstraction
         Employee GetById(int id);
         bool Edit(Employee empolyee);
         bool Create(Employee empolyee);
-        bool Delete(Employee empolyee);
+        bool Delete(int id);
+        void SaveChanges();
+
     }
 }
